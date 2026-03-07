@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marianne Gaber | ML Portfolio</title>
+    <title>Marianne Gaber | ML Engineer</title>
     <style>
         * {
             margin: 0;
@@ -12,25 +12,26 @@
         }
 
         body {
-            background-color: #fcf9f4;
+            background-color: #0f0f0f;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: #2c2c2c;
-            line-height: 1.5;
+            color: #f0f0f0;
+            line-height: 1.6;
         }
 
-        /* Navigation - ثابت في الأعلى */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background: #fcf9f4;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(10px);
             z-index: 1000;
             padding: 1.2rem 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #2a2a2a;
         }
 
         .nav-container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 5%;
             display: flex;
@@ -41,24 +42,28 @@
         .logo {
             font-size: 1.3rem;
             font-weight: 500;
-            color: #2c2c2c;
+            color: #f0f0f0;
             text-decoration: none;
+            letter-spacing: -0.02em;
+            cursor: pointer;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: #4a4a4a;
+            color: #b0b0b0;
             font-size: 0.95rem;
             transition: color 0.3s;
+            cursor: pointer;
         }
 
-        .nav-links a:hover {
-            color: #b48c5c;
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #c9a959;
         }
 
         /* Main content */
@@ -67,79 +72,84 @@
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 5%;
         }
 
-        section {
-            padding: 5rem 0;
-            border-bottom: 1px solid #f0f0f0;
+        /* Pages */
+        .page {
+            display: none;
+            min-height: calc(100vh - 80px);
+            padding: 3rem 0;
         }
 
-        /* Section headers */
-        .section-header {
+        .page.active-page {
+            display: block;
+        }
+
+        /* Page Header */
+        .page-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
 
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 400;
-            color: #2c2c2c;
+        .page-title {
+            font-size: 3rem;
+            font-weight: 350;
+            color: #f0f0f0;
             margin-bottom: 0.5rem;
         }
 
-        .section-subtitle {
-            color: #b48c5c;
+        .page-subtitle {
+            color: #c9a959;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.3em;
             font-size: 0.85rem;
         }
 
-        /* ===== HOME SECTION ===== */
-        .home-section {
-            min-height: 90vh;
+        /* ========== HOME PAGE ========== */
+        .hero {
+            min-height: 85vh;
             display: flex;
             align-items: center;
-            padding: 2rem 0;
         }
 
-        .home-content {
-            max-width: 600px;
+        .hero-content {
+            max-width: 700px;
         }
 
-        .home-greeting {
+        .hero-greeting {
             font-size: 1rem;
-            color: #b48c5c;
+            color: #c9a959;
             text-transform: uppercase;
             letter-spacing: 0.3em;
             margin-bottom: 1rem;
         }
 
-        .home-name {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+        .hero-name {
+            font-size: clamp(3rem, 8vw, 5rem);
             font-weight: 400;
             line-height: 1.1;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .home-name span {
-            color: #b48c5c;
+        .hero-name span {
+            color: #c9a959;
             font-style: italic;
         }
 
-        .home-bio {
-            font-size: 1.2rem;
-            color: #5f5f5f;
+        .hero-bio {
+            font-size: 1.3rem;
+            color: #b0b0b0;
             margin-bottom: 2rem;
-            line-height: 1.6;
+            max-width: 600px;
         }
 
-        .home-stats {
+        .hero-stats {
             display: flex;
             gap: 3rem;
-            margin-top: 2rem;
+            margin-top: 3rem;
         }
 
         .stat-item {
@@ -147,80 +157,152 @@
         }
 
         .stat-number {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 400;
-            color: #b48c5c;
+            color: #c9a959;
         }
 
         .stat-label {
             font-size: 0.9rem;
-            color: #6b6054;
+            color: #a0a0a0;
         }
 
-        /* ===== ABOUT SECTION ===== */
+        /* ========== ABOUT PAGE ========== */
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            gap: 4rem;
             align-items: center;
         }
 
         .about-image {
             width: 100%;
-            height: 400px;
-            background: #f0eae2;
+            height: 450px;
+            background: #1a1a1a;
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 1px solid #2a2a2a;
+        }
+
+        .about-text {
+            background: #1a1a1a;
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid #2a2a2a;
+        }
+
+        .about-text h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            color: #f0f0f0;
         }
 
         .about-text p {
-            color: #5f5f5f;
-            margin-bottom: 1.2rem;
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
             line-height: 1.8;
         }
 
         .about-quote {
             font-size: 1.2rem;
             font-style: italic;
-            color: #b48c5c;
-            border-left: 3px solid #b48c5c;
+            color: #c9a959;
+            border-left: 3px solid #c9a959;
             padding-left: 1.5rem;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
         }
 
-        /* ===== SKILLS SECTION ===== */
-        .skills-grid {
+        .education-card {
+            background: #0f0f0f;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+            border: 1px solid #2a2a2a;
+        }
+
+        /* ========== SKILLS & SERVICES PAGE ========== */
+        .skills-services {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
         }
 
-        .skill-card {
-            background: #f9f5f0;
-            padding: 2rem;
+        .skills-section, .services-section {
+            background: #1a1a1a;
+            padding: 2.5rem;
             border-radius: 20px;
+            border: 1px solid #2a2a2a;
+        }
+
+        .section-heading {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            color: #f0f0f0;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 0.8rem;
+        }
+
+        .skill-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: #b0b0b0;
+        }
+
+        .skill-bar {
+            width: 100%;
+            height: 8px;
+            background: #2a2a2a;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-fill {
+            height: 100%;
+            background: #c9a959;
+            border-radius: 10px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            background: #0f0f0f;
+            padding: 1.8rem;
+            border-radius: 15px;
+            border: 1px solid #2a2a2a;
             text-align: center;
         }
 
-        .skill-icon {
+        .service-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
 
-        .skill-card h3 {
+        .service-card h3 {
             font-size: 1.2rem;
             font-weight: 500;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
+            color: #f0f0f0;
         }
 
-        .skill-card p {
-            color: #6b6054;
+        .service-card p {
+            color: #b0b0b0;
             font-size: 0.9rem;
         }
 
-        /* ===== PROJECTS SECTION ===== */
+        /* ========== PROJECTS PAGE ========== */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -228,35 +310,43 @@
         }
 
         .project-card {
-            background: #f9f5f0;
+            background: #1a1a1a;
             border-radius: 20px;
             overflow: hidden;
+            border: 1px solid #2a2a2a;
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: #c9a959;
         }
 
         .project-image {
             width: 100%;
             height: 180px;
-            background: #e0d6cc;
+            background: #2a2a2a;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 2.5rem;
         }
 
         .project-info {
-            padding: 1.5rem;
+            padding: 1.8rem;
         }
 
         .project-info h3 {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 500;
             margin-bottom: 0.5rem;
+            color: #f0f0f0;
         }
 
         .project-info p {
-            color: #6b6054;
+            color: #b0b0b0;
             font-size: 0.9rem;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
         }
 
         .project-tags {
@@ -266,77 +356,161 @@
         }
 
         .project-tag {
-            background: #fcf9f4;
-            padding: 0.2rem 1rem;
+            background: #2a2a2a;
+            padding: 0.3rem 1rem;
             border-radius: 20px;
             font-size: 0.75rem;
-            color: #b48c5c;
-            border: 1px solid #e0d6cc;
+            color: #c9a959;
         }
 
-        /* ===== CONTACT SECTION ===== */
-        .contact-container {
-            background: #f9f5f0;
-            border-radius: 30px;
-            padding: 3rem;
+        /* ========== CONTACT PAGE ========== */
+        .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            gap: 3rem;
+        }
+
+        .contact-info {
+            background: #1a1a1a;
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid #2a2a2a;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
         }
 
         .contact-icon {
-            width: 45px;
-            height: 45px;
-            background: #fcf9f4;
+            width: 50px;
+            height: 50px;
+            background: #2a2a2a;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            color: #c9a959;
         }
 
+        .contact-text h4 {
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+            color: #f0f0f0;
+        }
+
+        .contact-text p {
+            color: #b0b0b0;
+        }
+
+        .contact-form {
+            background: #1a1a1a;
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid #2a2a2a;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: #f0f0f0;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #c9a959;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: #c9a959;
+            color: #0f0f0f;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-weight: 500;
+        }
+
+        .submit-btn:hover {
+            background: #b59442;
+        }
+
+        /* Thank You */
         .thankyou {
+            margin-top: 4rem;
             text-align: center;
-            margin-top: 3rem;
-            padding: 2rem;
-            background: #f9f5f0;
+            background: #1a1a1a;
+            padding: 4rem;
             border-radius: 30px;
+            border: 1px solid #2a2a2a;
         }
 
-        .thankyou h3 {
-            font-size: 1.8rem;
-            font-weight: 400;
+        .thankyou-icon {
+            font-size: 4rem;
             margin-bottom: 1rem;
-            color: #b48c5c;
         }
 
+        .thankyou h2 {
+            font-size: 2.5rem;
+            font-weight: 350;
+            margin-bottom: 1rem;
+            color: #c9a959;
+        }
+
+        .thankyou p {
+            color: #b0b0b0;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
         footer {
             padding: 2rem;
             text-align: center;
-            color: #6b6054;
+            color: #808080;
+            border-top: 1px solid #2a2a2a;
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
 
             .about-grid,
-            .skills-grid,
+            .skills-services,
             .projects-grid,
-            .contact-container {
+            .contact-grid,
+            .services-grid {
                 grid-template-columns: 1fr;
             }
 
-            .home-stats {
-                justify-content: center;
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
             }
         }
     </style>
@@ -344,246 +518,283 @@
 <body>
     <nav>
         <div class="nav-container">
-            <a class="logo">Marianne Gaber</a>
+            <a class="logo" onclick="showPage('home')">Marianne Gaber</a>
             <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#skills">Skills</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
+                <a onclick="showPage('home')" class="nav-link active" data-page="home">Home</a>
+                <a onclick="showPage('about')" class="nav-link" data-page="about">About</a>
+                <a onclick="showPage('skills')" class="nav-link" data-page="skills">Skills & Services</a>
+                <a onclick="showPage('projects')" class="nav-link" data-page="projects">Projects</a>
+                <a onclick="showPage('contact')" class="nav-link" data-page="contact">Contact</a>
             </div>
         </div>
     </nav>
 
     <main>
-        <!-- ===== HOME SECTION ===== -->
-        <section id="home" class="home-section">
-            <div class="container">
-                <div class="home-content">
-                    <div class="home-greeting">👋 Welcome to my portfolio</div>
-                    <h1 class="home-name">I'm <span>Marianne Gaber</span></h1>
-                    <p class="home-bio">Machine Learning Engineer & Computer Science student. I turn raw data into intelligent decisions.</p>
-                    
-                    <div class="home-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">6+</div>
-                            <div class="stat-label">Projects</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">3.59</div>
-                            <div class="stat-label">GPA</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">2+</div>
-                            <div class="stat-label">Years</div>
+        <!-- HOME PAGE -->
+        <div id="home-page" class="page active-page">
+            <div class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-greeting">👋 Welcome</div>
+                        <h1 class="hero-name">Marianne <span>Gaber</span></h1>
+                        <p class="hero-bio">Machine Learning Engineer & Computer Science student. I turn raw data into intelligent decisions.</p>
+                        
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">5+</div>
+                                <div class="stat-label">Projects</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">3.59</div>
+                                <div class="stat-label">GPA</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">2027</div>
+                                <div class="stat-label">Graduation</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- ===== ABOUT SECTION ===== -->
-        <section id="about">
+        <!-- ABOUT PAGE -->
+        <div id="about-page" class="page">
             <div class="container">
-                <div class="section-header">
-                    <div class="section-subtitle">Get to know me</div>
-                    <h2 class="section-title">About Me</h2>
+                <div class="page-header">
+                    <div class="page-subtitle">Get to know me</div>
+                    <h1 class="page-title">About Me</h1>
                 </div>
                 
                 <div class="about-grid">
                     <div class="about-image">
-                        <span style="font-size: 4rem;">👩‍💻</span>
-                        <!-- حطي صورتك هنا -->
+                        <span style="font-size: 5rem;">👩‍💻</span>
                     </div>
                     <div class="about-text">
-                        <p>I'm a Computer Science student at Menoufia University, driven by curiosity and a passion for Machine Learning. I'm fascinated by how raw data transforms into intelligent decisions.</p>
+                        <h2>Marianne Gaber</h2>
+                        <p>I'm a Computer Science student at Menoufia University, driven by curiosity and a passion for Machine Learning. I'm fascinated by how raw data transforms into intelligent decisions — and I enjoy being part of that transformation.</p>
                         <p>I approach machine learning with curiosity, discipline, and precision — ensuring every model I build is accurate and thoughtfully optimized.</p>
                         <div class="about-quote">"Every dataset is a puzzle, and every model is a step closer to building something meaningful."</div>
-                        <p><strong>📍 Education:</strong> Menoufia University (2023-2027) | DEPI ML Trainee (2025-2026)</p>
+                        
+                        <div class="education-card">
+                            <h3 style="margin-bottom: 1rem; font-weight: 500;">📚 Education</h3>
+                            <p><strong>Computer Science</strong> - Menoufia University (2023–2027) | GPA: 3.59/4.0</p>
+                            <p><strong>Machine Learning Trainee</strong> - DEPI (2025–2026)</p>
+                            <p style="margin-top: 0.5rem; color: #b0b0b0;">Focused on ML, Data Analysis, and Microsoft Azure</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- ===== SKILLS SECTION ===== -->
-        <section id="skills">
+        <!-- SKILLS & SERVICES PAGE -->
+        <div id="skills-page" class="page">
             <div class="container">
-                <div class="section-header">
-                    <div class="section-subtitle">What I do</div>
-                    <h2 class="section-title">Skills</h2>
+                <div class="page-header">
+                    <div class="page-subtitle">What I offer</div>
+                    <h1 class="page-title">Skills & Services</h1>
                 </div>
                 
-                <div class="skills-grid">
-                    <div class="skill-card">
-                        <div class="skill-icon">🐍</div>
-                        <h3>Python</h3>
-                        <p>Advanced OOP, Pandas, Scikit-learn</p>
+                <div class="skills-services">
+                    <div class="skills-section">
+                        <h2 class="section-heading">Technical Skills</h2>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header"><span>Python</span> <span>90%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" style="width: 90%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>Machine Learning</span> <span>80%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" style="width: 80%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>Data Analysis</span> <span>85%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" style="width: 85%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>OOP</span> <span>85%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" style="width: 85%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>SQL</span> <span>75%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" style="width: 75%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>Plotly Dash</span> <span>70%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" style="width: 70%"></div></div>
+                        </div>
                     </div>
-                    <div class="skill-card">
-                        <div class="skill-icon">🤖</div>
-                        <h3>Machine Learning</h3>
-                        <p>Model building, training, optimization</p>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-icon">📊</div>
-                        <h3>Data Analysis</h3>
-                        <p>Visualization, insights, Dash</p>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-icon">🗄️</div>
-                        <h3>SQL</h3>
-                        <p>Database queries & management</p>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-icon">☁️</div>
-                        <h3>Azure</h3>
-                        <p>Cloud ML services</p>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-icon">🧠</div>
-                        <h3>OOP</h3>
-                        <p>Modular system design</p>
+                    
+                    <div class="services-section">
+                        <h2 class="section-heading">Services</h2>
+                        <div class="services-grid">
+                            <div class="service-card">
+                                <div class="service-icon">🤖</div>
+                                <h3>ML Models</h3>
+                                <p>Building and training machine learning models</p>
+                            </div>
+                            <div class="service-card">
+                                <div class="service-icon">📊</div>
+                                <h3>Data Analysis</h3>
+                                <p>Turning raw data into actionable insights</p>
+                            </div>
+                            <div class="service-card">
+                                <div class="service-icon">📈</div>
+                                <h3>Dash Apps</h3>
+                                <p>Interactive dashboards and visualizations</p>
+                            </div>
+                            <div class="service-card">
+                                <div class="service-icon">🧠</div>
+                                <h3>OOP Design</h3>
+                                <p>Clean, scalable system architecture</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- ===== PROJECTS SECTION ===== -->
-        <section id="projects">
+        <!-- PROJECTS PAGE -->
+        <div id="projects-page" class="page">
             <div class="container">
-                <div class="section-header">
-                    <div class="section-subtitle">My work</div>
-                    <h2 class="section-title">Projects</h2>
+                <div class="page-header">
+                    <div class="page-subtitle">My work</div>
+                    <h1 class="page-title">Projects</h1>
                 </div>
                 
                 <div class="projects-grid">
-                    <!-- Project 1 -->
                     <div class="project-card">
                         <div class="project-image">🚲</div>
                         <div class="project-info">
                             <h3>Bike-Sharing Analysis</h3>
-                            <p>Python, Plotly Dash</p>
+                            <p>Python & Plotly Dash</p>
                             <div class="project-tags">
                                 <span class="project-tag">Python</span>
                                 <span class="project-tag">Dash</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Project 2 -->
-                    <div class="project-card">
-                        <div class="project-image">🏥</div>
-                        <div class="project-info">
-                            <h3>Hospital System</h3>
-                            <p>Python OOP</p>
-                            <div class="project-tags">
-                                <span class="project-tag">OOP</span>
-                                <span class="project-tag">Python</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Project 3 -->
-                    <div class="project-card">
-                        <div class="project-image">🤖</div>
-                        <div class="project-info">
-                            <h3>ML Deployment</h3>
-                            <p>Azure, ML</p>
-                            <div class="project-tags">
-                                <span class="project-tag">Azure</span>
-                                <span class="project-tag">API</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Project 4 -->
-                    <div class="project-card">
-                        <div class="project-image">📊</div>
-                        <div class="project-info">
-                            <h3>Customer Segmentation</h3>
-                            <p>K-means, Pandas</p>
-                            <div class="project-tags">
-                                <span class="project-tag">ML</span>
-                                <span class="project-tag">Clustering</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Project 5 -->
-                    <div class="project-card">
-                        <div class="project-image">📈</div>
-                        <div class="project-info">
-                            <h3>Sales Forecasting</h3>
-                            <p>Time Series</p>
-                            <div class="project-tags">
-                                <span class="project-tag">Forecast</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Project 6 -->
-                    <div class="project-card">
-                        <div class="project-image">🧠</div>
-                        <div class="project-info">
-                            <h3>Image Classification</h3>
-                            <p>CNN, TensorFlow</p>
-                            <div class="project-tags">
-                                <span class="project-tag">Deep Learning</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== CONTACT SECTION ===== -->
-        <section id="contact">
-            <div class="container">
-                <div class="section-header">
-                    <div class="section-subtitle">Get in touch</div>
-                    <h2 class="section-title">Contact Me</h2>
-                </div>
-                
-                <div class="contact-container">
-                    <div>
-                        <div class="contact-item">
-                            <div class="contact-icon">📞</div>
-                            <div>
-                                <strong>Phone</strong><br>
-                                +201101641521
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">📍</div>
-                            <div>
-                                <strong>Location</strong><br>
-                                Helwan, Cairo, Egypt
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">📧</div>
-                            <div>
-                                <strong>Email</strong><br>
-                                mariam.gaber@email.com
+                                <span class="project-tag">Data Viz</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div style="background: #fcf9f4; padding: 2rem; border-radius: 20px;">
-                        <h3 style="margin-bottom: 1rem; font-weight: 400;">Send a message</h3>
-                        <input type="text" placeholder="Your Name" style="width:100%; padding:0.8rem; margin-bottom:1rem; border:1px solid #ddd; border-radius:8px;">
-                        <input type="email" placeholder="Your Email" style="width:100%; padding:0.8rem; margin-bottom:1rem; border:1px solid #ddd; border-radius:8px;">
-                        <textarea placeholder="Your Message" rows="3" style="width:100%; padding:0.8rem; margin-bottom:1rem; border:1px solid #ddd; border-radius:8px;"></textarea>
-                        <button style="background:#b48c5c; color:white; border:none; padding:0.8rem 2rem; border-radius:40px; cursor:pointer;">Send</button>
+                    <div class="project-card">
+                        <div class="project-image">🏥</div>
+                        <div class="project-info">
+                            <h3>Hospital Management</h3>
+                            <p>Python OOP System</p>
+                            <div class="project-tags">
+                                <span class="project-tag">OOP</span>
+                                <span class="project-tag">Python</span>
+                                <span class="project-tag">Modular</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-image">☁️</div>
+                        <div class="project-info">
+                            <h3>Azure ML Deployment</h3>
+                            <p>Microsoft Azure</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Azure</span>
+                                <span class="project-tag">Cloud</span>
+                                <span class="project-tag">ML</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACT PAGE -->
+        <div id="contact-page" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <div class="page-subtitle">Get in touch</div>
+                    <h1 class="page-title">Contact Me</h1>
+                </div>
+                
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div class="contact-text">
+                                <h4>Phone</h4>
+                                <p>+201101641521</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div class="contact-text">
+                                <h4>Location</h4>
+                                <p>Helwan, Cairo, Egypt</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div class="contact-text">
+                                <h4>Email</h4>
+                                <p>mariam.gaber@example.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form">
+                        <form id="contactForm" onsubmit="showThankYou(); return false;">
+                            <div class="form-group">
+                                <input type="text" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Your Email" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea placeholder="Your Message" required></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">Send Message</button>
+                        </form>
                     </div>
                 </div>
 
-                <!-- Thank You -->
-                <div class="thankyou">
-                    <h3>Thank You for Visiting!</h3>
-                    <p>I appreciate your time and interest in my work. Feel free to reach out for collaborations or just a chat about ML and data science.</p>
+                <div id="thankyou" style="display: none;" class="thankyou">
+                    <div class="thankyou-icon">✨</div>
+                    <h2>Thank You!</h2>
+                    <p>Your message has been sent successfully. I'll get back to you soon.</p>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 
     <footer>
         <p>© 2025 Marianne Gaber — Machine Learning Engineer</p>
     </footer>
+
+    <script>
+        // Show selected page
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active-page');
+            });
+            
+            // Show selected page
+            document.getElementById(`${pageId}-page`).classList.add('active-page');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Show thank you message
+        function showThankYou() {
+            document.querySelector('.contact-grid').style.display = 'none';
+            document.getElementById('thankyou').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
