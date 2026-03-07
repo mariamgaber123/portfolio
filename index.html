@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marianne Gaber | ML Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fcf9f4;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #2c2c2c;
+            line-height: 1.5;
+        }
+
+        /* Navigation - ثابت في الأعلى */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #fcf9f4;
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #2c2c2c;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4a4a4a;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #b48c5c;
+        }
+
+        /* Main content */
+        main {
+            margin-top: 80px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        section {
+            padding: 5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        /* Section headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 400;
+            color: #2c2c2c;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            color: #b48c5c;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.85rem;
+        }
+
+        /* ===== HOME SECTION ===== */
+        .home-section {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem 0;
+        }
+
+        .home-content {
+            max-width: 600px;
+        }
+
+        .home-greeting {
+            font-size: 1rem;
+            color: #b48c5c;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            margin-bottom: 1rem;
+        }
+
+        .home-name {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .home-name span {
+            color: #b48c5c;
+            font-style: italic;
+        }
+
+        .home-bio {
+            font-size: 1.2rem;
+            color: #5f5f5f;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .home-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 400;
+            color: #b48c5c;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6b6054;
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 400px;
+            background: #f0eae2;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-text p {
+            color: #5f5f5f;
+            margin-bottom: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .about-quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #b48c5c;
+            border-left: 3px solid #b48c5c;
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        /* ===== SKILLS SECTION ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: #f9f5f0;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-card h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-card p {
+            color: #6b6054;
+            font-size: 0.9rem;
+        }
+
+        /* ===== PROJECTS SECTION ===== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: #f9f5f0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 180px;
+            background: #e0d6cc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-info h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-info p {
+            color: #6b6054;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .project-tag {
+            background: #fcf9f4;
+            padding: 0.2rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #b48c5c;
+            border: 1px solid #e0d6cc;
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact-container {
+            background: #f9f5f0;
+            border-radius: 30px;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            background: #fcf9f4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .thankyou {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: #f9f5f0;
+            border-radius: 30px;
+        }
+
+        .thankyou h3 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: #b48c5c;
+        }
+
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: #6b6054;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .about-grid,
+            .skills-grid,
+            .projects-grid,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .home-stats {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a class="logo">Marianne Gaber</a>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- ===== HOME SECTION ===== -->
+        <section id="home" class="home-section">
+            <div class="container">
+                <div class="home-content">
+                    <div class="home-greeting">👋 Welcome to my portfolio</div>
+                    <h1 class="home-name">I'm <span>Marianne Gaber</span></h1>
+                    <p class="home-bio">Machine Learning Engineer & Computer Science student. I turn raw data into intelligent decisions.</p>
+                    
+                    <div class="home-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">6+</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">3.59</div>
+                            <div class="stat-label">GPA</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">2+</div>
+                            <div class="stat-label">Years</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ABOUT SECTION ===== -->
+        <section id="about">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-subtitle">Get to know me</div>
+                    <h2 class="section-title">About Me</h2>
+                </div>
+                
+                <div class="about-grid">
+                    <div class="about-image">
+                        <span style="font-size: 4rem;">👩‍💻</span>
+                        <!-- حطي صورتك هنا -->
+                    </div>
+                    <div class="about-text">
+                        <p>I'm a Computer Science student at Menoufia University, driven by curiosity and a passion for Machine Learning. I'm fascinated by how raw data transforms into intelligent decisions.</p>
+                        <p>I approach machine learning with curiosity, discipline, and precision — ensuring every model I build is accurate and thoughtfully optimized.</p>
+                        <div class="about-quote">"Every dataset is a puzzle, and every model is a step closer to building something meaningful."</div>
+                        <p><strong>📍 Education:</strong> Menoufia University (2023-2027) | DEPI ML Trainee (2025-2026)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SKILLS SECTION ===== -->
+        <section id="skills">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-subtitle">What I do</div>
+                    <h2 class="section-title">Skills</h2>
+                </div>
+                
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon">🐍</div>
+                        <h3>Python</h3>
+                        <p>Advanced OOP, Pandas, Scikit-learn</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">🤖</div>
+                        <h3>Machine Learning</h3>
+                        <p>Model building, training, optimization</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">📊</div>
+                        <h3>Data Analysis</h3>
+                        <p>Visualization, insights, Dash</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">🗄️</div>
+                        <h3>SQL</h3>
+                        <p>Database queries & management</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">☁️</div>
+                        <h3>Azure</h3>
+                        <p>Cloud ML services</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">🧠</div>
+                        <h3>OOP</h3>
+                        <p>Modular system design</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PROJECTS SECTION ===== -->
+        <section id="projects">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-subtitle">My work</div>
+                    <h2 class="section-title">Projects</h2>
+                </div>
+                
+                <div class="projects-grid">
+                    <!-- Project 1 -->
+                    <div class="project-card">
+                        <div class="project-image">🚲</div>
+                        <div class="project-info">
+                            <h3>Bike-Sharing Analysis</h3>
+                            <p>Python, Plotly Dash</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Python</span>
+                                <span class="project-tag">Dash</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="project-card">
+                        <div class="project-image">🏥</div>
+                        <div class="project-info">
+                            <h3>Hospital System</h3>
+                            <p>Python OOP</p>
+                            <div class="project-tags">
+                                <span class="project-tag">OOP</span>
+                                <span class="project-tag">Python</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="project-card">
+                        <div class="project-image">🤖</div>
+                        <div class="project-info">
+                            <h3>ML Deployment</h3>
+                            <p>Azure, ML</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Azure</span>
+                                <span class="project-tag">API</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 4 -->
+                    <div class="project-card">
+                        <div class="project-image">📊</div>
+                        <div class="project-info">
+                            <h3>Customer Segmentation</h3>
+                            <p>K-means, Pandas</p>
+                            <div class="project-tags">
+                                <span class="project-tag">ML</span>
+                                <span class="project-tag">Clustering</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 5 -->
+                    <div class="project-card">
+                        <div class="project-image">📈</div>
+                        <div class="project-info">
+                            <h3>Sales Forecasting</h3>
+                            <p>Time Series</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Forecast</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 6 -->
+                    <div class="project-card">
+                        <div class="project-image">🧠</div>
+                        <div class="project-info">
+                            <h3>Image Classification</h3>
+                            <p>CNN, TensorFlow</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Deep Learning</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CONTACT SECTION ===== -->
+        <section id="contact">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-subtitle">Get in touch</div>
+                    <h2 class="section-title">Contact Me</h2>
+                </div>
+                
+                <div class="contact-container">
+                    <div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div>
+                                <strong>Phone</strong><br>
+                                +201101641521
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <strong>Location</strong><br>
+                                Helwan, Cairo, Egypt
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div>
+                                <strong>Email</strong><br>
+                                mariam.gaber@email.com
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #fcf9f4; padding: 2rem; border-radius: 20px;">
+                        <h3 style="margin-bottom: 1rem; font-weight: 400;">Send a message</h3>
+                        <input type="text" placeholder="Your Name" style="width:100%; padding:0.8rem; margin-bottom:1rem; border:1px solid #ddd; border-radius:8px;">
+                        <input type="email" placeholder="Your Email" style="width:100%; padding:0.8rem; margin-bottom:1rem; border:1px solid #ddd; border-radius:8px;">
+                        <textarea placeholder="Your Message" rows="3" style="width:100%; padding:0.8rem; margin-bottom:1rem; border:1px solid #ddd; border-radius:8px;"></textarea>
+                        <button style="background:#b48c5c; color:white; border:none; padding:0.8rem 2rem; border-radius:40px; cursor:pointer;">Send</button>
+                    </div>
+                </div>
+
+                <!-- Thank You -->
+                <div class="thankyou">
+                    <h3>Thank You for Visiting!</h3>
+                    <p>I appreciate your time and interest in my work. Feel free to reach out for collaborations or just a chat about ML and data science.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Marianne Gaber — Machine Learning Engineer</p>
+    </footer>
+</body>
+</html>
