@@ -1,251 +1,228 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mariam Gaber | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --accent-color: #3498db;
-            --bg-color: #f4f7f6;
-            --card-bg: #ffffff;
-            --text-color: #333;
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --muted: #666;
+            --accent: #800020;
+            --border: #eeeeee;
+            --card-bg: #fdfaf6;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; overflow-x: hidden; }
 
         /* Navigation */
-        nav {
-            position: fixed;
-            top: 0; width: 100%;
-            background: var(--primary-color);
-            padding: 1rem 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 1.5rem 0; border-bottom: 1px solid var(--border); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 5%; }
+        .logo { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.2rem; cursor: pointer; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .nav-links a { text-decoration: none; color: var(--text); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-size: 0.9rem;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
+        /* Sections Logic */
+        .page { display: none; padding: 140px 0 80px; min-height: 100vh; }
+        .active { display: block; animation: fadeIn 0.6s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 5%; }
 
-        nav a:hover { background: var(--accent-color); }
+        /* Home/Profile */
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .hero-text h1 { font-family: 'Playfair Display', serif; font-size: 4.5rem; line-height: 1; margin: 1.5rem 0; }
+        .profile-frame { background: var(--card-bg); padding: 15px; border-radius: 60px; border: 1px solid var(--border); }
+        .placeholder-img { width: 100%; height: 500px; background: #eee; border-radius: 50px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.8rem; text-transform: uppercase; }
 
-        /* Sections */
-        section {
-            padding: 100px 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        /* Cards & Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; margin-top: 3rem; }
+        .editorial-card { border-top: 1px solid var(--text); padding-top: 2rem; background: transparent; }
+        .editorial-card h3 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; }
+        
+        /* Skills Tags */
+        .tag-box { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2rem; }
+        .tag { border: 1px solid #ddd; padding: 8px 18px; border-radius: 25px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
-        .container { max-width: 1100px; width: 100%; }
+        /* Projects Carousel/Slider */
+        .project-slider { display: flex; overflow-x: auto; gap: 20px; padding: 20px 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
+        .project-slide { min-width: 100%; height: 450px; background: #f4f4f4; border-radius: 30px; scroll-snap-align: center; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); overflow: hidden; }
+        .project-slide img { width: 100%; height: 100%; object-fit: cover; }
 
-        h2 { border-bottom: 3px solid var(--accent-color); padding-bottom: 10px; margin-bottom: 40px; }
+        /* Footer */
+        footer { text-align: center; padding: 4rem 0; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--muted); letter-spacing: 2px; }
 
-        /* Card System */
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            width: 100%;
-        }
-
-        .card {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-
-        .card:hover { transform: translateY(-10px); }
-
-        .image-placeholder {
-            width: 100%;
-            height: 200px;
-            background: #eee;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            border: 2px dashed #ccc;
-        }
-
-        /* Project Cards */
-        .project-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .btn {
-            background: var(--accent-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 15px;
-        }
-
-        /* Social Icons */
-        .social-links { display: flex; gap: 20px; font-size: 2rem; margin-top: 20px; }
-        .social-links a { color: var(--primary-color); text-decoration: none; }
-
+        /* Responsive */
+        @media (max-width: 850px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .hero-text h1 { font-size: 3rem; } }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#education">Education</a>
-        <a href="#experience">Experience</a>
-        <a href="#skills">Skills</a>
-        <a href="#services">Services</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-        <a href="#thanks">Thanks</a>
+        <div class="nav-container">
+            <div class="logo" onclick="showPage('home')">MARIAM GABER [cite: 1]</div>
+            <div class="nav-links">
+                <a onclick="showPage('home')">Profile</a>
+                <a onclick="showPage('about')">About</a>
+                <a onclick="showPage('education')">Education</a>
+                <a onclick="showPage('experience')">Experience</a>
+                <a onclick="showPage('skills')">Skills</a>
+                <a onclick="showPage('services')">Services</a>
+                <a onclick="showPage('projects')">Works</a>
+                <a onclick="showPage('contact')">Contact</a>
+            </div>
+        </div>
     </nav>
 
-    <section id="home">
-        <div class="image-placeholder" style="width: 250px; height: 250px; border-radius: 50%;">[صورة مريم جابر الشخصية]</div>
-        <h1>مريم جابر [cite: 1]</h1>
-        <p>Machine Learning Engineer [cite: 2]</p>
-    </section>
-
-    <section id="about">
-        <h2>About Me [cite: 4]</h2>
+    <section id="home" class="page active">
         <div class="container">
-            <div class="card">
-                <p>أنا مريم، طالبة علوم حاسب مدفوعة بالفضول وشغف بالتعلم الآلي. [cite: 5] أهتم بكيفية تحويل البيانات الخام إلى قرارات ذكية. [cite: 6]</p>
-                <p>أبني نماذج تعلم آلي بدقة واحترافية، وأعتبر كل مجموعة بيانات بمثابة لغز أسعى لحله. [cite: 7, 8]</p>
-                <div class="image-placeholder">[صورة تعبيرية للذكاء الاصطناعي]</div>
+            <div class="hero-grid">
+                <div class="hero-text">
+                    <p style="letter-spacing: 4px; font-size: 0.8rem; font-weight: 600; color: var(--accent);">PORTFOLIO 2026 [cite: 15]</p>
+                    <h1>Mariam<br>Gaber <i>ML.</i> [cite: 1]</h1>
+                    <p style="color: var(--muted); max-width: 400px;">Machine Learning Engineer specialized in turning raw data into intelligent decisions. [cite: 2, 6]</p>
+                </div>
+                <div class="profile-frame">
+                    <div class="placeholder-img">Personal Photo Placeholder</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="education">
-        <h2>Education [cite: 9]</h2>
-        <div class="card-grid container">
-            <div class="card">
+    <section id="about" class="page">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display'; font-size: 3.5rem; margin-bottom: 2rem;">About Me [cite: 4]</h2>
+            <p style="font-size: 1.3rem; max-width: 850px; margin-bottom: 3rem; font-weight: 300;">
+                I am a Computer Science student driven by curiosity and a passion for Machine Learning. [cite: 5] 
+                I approach every dataset as a puzzle and ensure every model I build is accurate and optimized. [cite: 7, 8]
+            </p>
+            <div class="placeholder-img" style="height: 300px;">Creative Image Placeholder</div>
+        </div>
+    </section>
+
+    <section id="education" class="page">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display'; font-size: 3.5rem; margin-bottom: 3rem;">Education [cite: 9]</h2>
+            <div class="editorial-card">
                 <h3>Computer Science [cite: 10]</h3>
-                <p>كلية الحاسبات والمعلومات - جامعة المنوفية [cite: 18, 19, 20]</p>
-                <p>2023 - 2027 [cite: 11]</p>
-                <p><strong>GPA: 3.59 / 4.0</strong> [cite: 12]</p>
+                <p>Faculty of Computers & Information, Menoufia University (2023-2027). [cite: 11, 19]</p>
+                <p style="color: var(--accent); font-weight: 700; margin-top: 15px; font-size: 1.2rem;">GPA: 3.59 / 4.0 [cite: 12]</p>
             </div>
         </div>
     </section>
 
-    <section id="experience">
-        <h2>Experience</h2>
-        <div class="card-grid container">
-            <div class="card">
+    <section id="experience" class="page">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display'; font-size: 3.5rem; margin-bottom: 3rem;">Experience</h2>
+            <div class="editorial-card">
                 <h3>Machine Learning Trainee [cite: 13]</h3>
-                <p>مبادرة رواد مصر الرقمية (DEPI) [cite: 14, 21]</p>
-                <p>2025 - 2026 [cite: 15]</p>
-                <p>التركيز على تحليل البيانات، تعلم الآلة وتقنيات Microsoft Azure. [cite: 16]</p>
+                <p>Digital Egypt Pioneers Initiative (DEPI) (2025-2026). [cite: 14, 15]</p>
+                <p style="color: var(--muted); margin-top: 15px;">Focused on ML models, Data Analysis, and Azure technologies with hands-on labs. [cite: 16]</p>
             </div>
         </div>
     </section>
 
-    <section id="skills">
-        <h2>Skills [cite: 22]</h2>
-        <div class="card-grid container">
-            <div class="card">Python [cite: 26]</div>
-            <div class="card">Machine Learning [cite: 30]</div>
-            <div class="card">Deep Learning [cite: 31]</div>
-            <div class="card">Data Analysis [cite: 25]</div>
-            <div class="card">NLP [cite: 28, 32]</div>
-            <div class="card">Data Preprocessing [cite: 27]</div>
-        </div>
-    </section>
-
-    <section id="services">
-        <h2>Services [cite: 33]</h2>
-        <div class="card-grid container">
-            <div class="card">
-                <h3>Machine Learning [cite: 34]</h3>
-                <p>بناء وتدريب نماذج لحل مشكلات واقعية. [cite: 35]</p>
-            </div>
-            <div class="card">
-                <h3>Data Analysis [cite: 36]</h3>
-                <p>تنظيف وتصور البيانات لاستخراج الأنماط. [cite: 37, 38]</p>
-            </div>
-            <div class="card">
-                <h3>Data Preprocessing [cite: 39]</h3>
-                <p>تحويل البيانات الخام إلى جودة عالية للنمذجة. [cite: 40]</p>
-            </div>
-            <div class="card">
-                <h3>Model Optimization [cite: 41]</h3>
-                <p>تحسين أداء النماذج بدقة وموثوقية. [cite: 43, 44, 45]</p>
+    <section id="skills" class="page">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display'; font-size: 3.5rem; margin-bottom: 3rem;">Skills [cite: 22]</h2>
+            <div class="tag-box">
+                <span class="tag">Python [cite: 26]</span>
+                <span class="tag">Machine Learning [cite: 30]</span>
+                <span class="tag">Deep Learning [cite: 31]</span>
+                <span class="tag">Data Analysis [cite: 25]</span>
+                <span class="tag">NLP [cite: 28]</span>
+                <span class="tag">Data Preprocessing [cite: 27]</span>
+                <span class="tag">Azure [cite: 16]</span>
             </div>
         </div>
     </section>
 
-    <section id="projects">
-        <h2>Projects </h2>
-        <div class="card-grid container">
-            <a href="project1.html" class="project-link">
-                <div class="card">
-                    <div class="image-placeholder">[Image: Bike-Sharing Dashboard] [cite: 56]</div>
-                    <h3>Bike-Sharing Analysis [cite: 48]</h3>
-                    <p>Python & Plotly Dash [cite: 49]</p>
+    <section id="services" class="page">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display'; font-size: 3.5rem; margin-bottom: 3rem;">Services [cite: 33]</h2>
+            <div class="grid">
+                <div class="editorial-card">
+                    <h3>ML Development [cite: 34]</h3>
+                    <p>Designing and training models to solve real-world problems using structured datasets. [cite: 35]</p>
                 </div>
-            </a>
-            <a href="project2.html" class="project-link">
-                <div class="card">
-                    <div class="image-placeholder">[Image: Hospital System Login] [cite: 142]</div>
-                    <h3>Hospital Management System [cite: 130]</h3>
-                    <p>Python OOP [cite: 131]</p>
+                <div class="editorial-card">
+                    <h3>Data Insights [cite: 36]</h3>
+                    <p>Cleaning, analyzing, and visualizing data to uncover meaningful patterns. [cite: 37, 38]</p>
                 </div>
-            </a>
-            <div class="card">
-                <div class="image-placeholder">[قريباً - مشروع Machine Learning]</div>
-                <h3>New ML Project</h3>
-                <p>Coming Soon...</p>
+                <div class="editorial-card">
+                    <h3>Optimization [cite: 41]</h3>
+                    <p>Evaluating and improving models to achieve reliable performance. [cite: 43, 45]</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="contact">
-        <h2>Contact Me [cite: 160]</h2>
-        <div class="container card">
-            <p>📍 Helwan, Cairo, Egypt [cite: 162]</p>
-            <p>📞 +201101641521 [cite: 161]</p>
-            <div class="social-links">
-                <a href="#">LinkedIn</a>
-                <a href="#">GitHub</a>
-                <a href="#">Gmail</a>
+    <section id="projects" class="page">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display'; font-size: 3.5rem; margin-bottom: 3rem;">Works [cite: 46]</h2>
+            
+            <div style="margin-bottom: 100px;">
+                <h3 style="font-family: 'Playfair Display'; font-size: 2rem;">01. Bike-Sharing Analysis [cite: 48]</h3>
+                <div class="project-slider">
+                    <div class="project-slide">Slide 1: Dashboard Overview [cite: 56]</div>
+                    <div class="project-slide">Slide 2: User Patterns [cite: 50]</div>
+                    <div class="project-slide">Slide 3: Station Usage [cite: 83]</div>
+                </div>
+                <p style="color: var(--muted); margin-top: 1rem;">Interactive dashboard built with Python & Plotly Dash for user behavior analysis. [cite: 49, 53]</p>
+            </div>
+
+            <div style="margin-bottom: 100px;">
+                <h3 style="font-family: 'Playfair Display'; font-size: 2rem;">02. Hospital Management [cite: 130]</h3>
+                <div class="project-slider">
+                    <div class="project-slide">Slide 1: Login Interface [cite: 142]</div>
+                    <div class="project-slide">Slide 2: Department Dashboard [cite: 147]</div>
+                </div>
+                <p style="color: var(--muted); margin-top: 1rem;">Modular OOP system for managing staff and medical records. [cite: 131, 132]</p>
+            </div>
+
+            <div>
+                <h3 style="font-family: 'Playfair Display'; font-size: 2rem; color: #ccc;">03. Upcoming ML Project</h3>
+                <div class="placeholder-img" style="height: 200px; border: 1px dashed #ccc;">Future Project Space</div>
             </div>
         </div>
     </section>
 
-    <section id="thanks">
-        <div class="image-placeholder" style="border:none;">
-            [Image: Digital Brain/Neural Network] [cite: 160]
+    <section id="contact" class="page">
+        <div class="container" style="text-align: center;">
+            <p style="text-transform: uppercase; letter-spacing: 5px; margin-bottom: 2rem;">Inquiries [cite: 160]</p>
+            <h2 style="font-family: 'Playfair Display'; font-size: 4rem; margin-bottom: 3rem;">Let's connect.</h2>
+            <div style="margin-bottom: 4rem;">
+                <p style="font-size: 1.8rem; font-weight: 300;">+201101641521 [cite: 161]</p>
+                <p style="color: var(--muted);">Helwan, Cairo, Egypt [cite: 162]</p>
+            </div>
+            <button onclick="showPage('thanks')" style="background: var(--text); color: white; border: none; padding: 1.2rem 4rem; cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">Send Message</button>
         </div>
-        <h2>Thank You [cite: 166]</h2>
     </section>
 
+    <section id="thanks" class="page">
+        <div class="container" style="text-align: center; padding-top: 100px;">
+            <h2 style="font-family: 'Playfair Display'; font-size: 5rem; color: var(--accent);">Thank You [cite: 166]</h2>
+            <p style="margin-top: 2rem; color: var(--muted); font-size: 1.2rem;">Your interest is appreciated. Building something meaningful together. [cite: 8]</p>
+            <a onclick="showPage('home')" style="display: inline-block; margin-top: 4rem; color: var(--text); font-weight: 700; cursor: pointer; border-bottom: 2px solid var(--accent); text-decoration: none; text-transform: uppercase; font-size: 0.8rem;">Return to Profile</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>MARIAM GABER © 2026 — MACHINE LEARNING ENGINEER [cite: 1, 15]</p>
+    </footer>
+
+    <script>
+        function showPage(id) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            // Show the selected page
+            document.getElementById(id).classList.add('active');
+            // Scroll to top
+            window.scrollTo(0,0);
+        }
+    </script>
 </body>
 </html>
