@@ -78,7 +78,45 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
 .skill-circle img { width: 100%; height: 100%; object-fit: cover; }
 .skill-item:hover .skill-circle { border-color: var(--primary-purple); transform: translateY(-10px); box-shadow: 0 0 15px var(--primary-purple); }
 .skill-label { display: block; margin-top: 1rem; font-weight: 600; color: var(--text-white); background: rgba(139, 92, 246, 0.1); padding: 5px 15px; border-radius: 20px; }
+/* تنسيق صفحة الخدمات */
+.services-grid { 
+    display:grid; 
+    gap:2rem; 
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); 
+    margin-top: 3rem; 
+}
 
+.service-card { 
+    background:var(--card-bg); 
+    border-radius:20px; 
+    overflow: hidden;
+    border:1px solid var(--border-color); 
+    transition:0.4s; 
+    text-align: center;
+}
+
+.service-card:hover { 
+    transform:translateY(-10px); 
+    border-color: var(--primary-purple); 
+    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15); 
+}
+
+.service-img-wrapper { 
+    width: 100%; 
+    height: 200px; 
+    overflow: hidden; 
+}
+
+.service-img { 
+    width:100%; 
+    height:100%; 
+    object-fit:cover; 
+    transition: 0.5s; 
+}
+
+.service-info { padding: 1.5rem; }
+.service-info h5 { font-size: 1.3rem; margin-bottom: 0.8rem; color: var(--primary-purple); }
+.service-info p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; }
 /* --- Projects (Modified: Back to Original Card Design) --- */
 .projects-grid { display:grid; gap:2rem; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); }
 .project-card { background: var(--card-bg); padding: 1.5rem; border-radius: 15px; border: 1px solid var(--border-color); cursor:pointer; text-align:center; transition: 0.3s; }
@@ -218,22 +256,61 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
         break-inside: avoid;
     }
 }
+/* أيقونة المنيو مخفية في الشاشات الكبيرة */
+.menu-icon {
+    display: none;
+    font-size: 2rem;
+    color: var(--primary-purple);
+    cursor: pointer;
+}
+
+@media (max-width: 992px) {
+    .menu-icon {
+        display: block; /* تظهر فقط في الموبايل */
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--dark-bg);
+        flex-direction: column; /* الروابط تحت بعضها */
+        gap: 0;
+        display: none; /* مخفية افتراضياً */
+        border-bottom: 2px solid var(--primary-purple);
+    }
+
+    .nav-links.active {
+        display: flex; /* تظهر عند الضغط على الزر */
+    }
+
+    .nav-links a {
+        padding: 1.5rem;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+    }
+}
 </style>
 </head>
 <body>
 
 <nav>
 <div class="nav-container">
-<a class="logo" onclick="showPage('home')">Mariam Gaber</a>
-<div class="nav-links">
-    <a onclick="showPage('home')" class="nav-link active" data-page="home">Home</a>
-    <a onclick="showPage('about')" class="nav-link" data-page="about">About</a>
-    <a onclick="showPage('eduexp')" class="nav-link" data-page="eduexp">Education</a>
-    <a onclick="showPage('skills')" class="nav-link" data-page="skills">Skills</a>
-    <a onclick="showPage('projects')" class="nav-link" data-page="projects">Projects</a>
-    <a onclick="showPage('contact')" class="nav-link" data-page="contact">Contact</a>
-    <a onclick="showPage('thankyou')" class="nav-link" data-page="thankyou">Thanks</a>
-</div>
+    <a class="logo" onclick="showPage('home')">Mariam Gaber</a>
+    
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+    <div class="nav-links" id="navLinks">
+        <a onclick="showPage('home')" class="nav-link active" data-page="home">Home</a>
+        <a onclick="showPage('about')" class="nav-link" data-page="about">About</a>
+        <a onclick="showPage('eduexp')" class="nav-link" data-page="eduexp">Education</a>
+        <a onclick="showPage('skills')" class="nav-link" data-page="skills">Skills</a>
+        <a onclick="showPage('services')" class="nav-link" data-page="services">Services</a>
+        <a onclick="showPage('projects')" class="nav-link" data-page="projects">Projects</a>
+        <a onclick="showPage('contact')" class="nav-link" data-page="contact">Contact</a>
+    </div>
 </div>
 </nav>
 
@@ -319,7 +396,52 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
     </div>
 </div>
 </div>
-
+<div id="services-page" class="page">
+    <div class="container">
+        <h2 style="font-size:2.5rem; margin-bottom:1rem; text-align:center;">My <span style="color:var(--primary-purple)">Services</span></h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-img-wrapper">
+                    <img src="What-is-machine-learning-Definition-types-1024x515.jpg.optimal.jpg" class="service-img">
+                </div>
+                <div class="service-info">
+                    <h5>Machine Learning</h5>
+                    <p>Designing and training models to solve real-world problems with high accuracy.</p>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-img-wrapper">
+                    <img src="OpenClaw-AI-Assistant-How-It-Really-Works.webp" class="service-img">
+                </div>
+                <div class="service-info">
+                    <h5>Model Optimization</h5>
+                    <p>Improving model performance and efficiency for faster and better results.</p>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-img-wrapper">
+                    <img src="computation-big-data-center-template_15115-8.avif" class="service-img">
+                </div>
+                <div class="service-info">
+                    <h5>Data Preprocessing</h5>
+                    <p>Cleaning and transforming raw data into high-quality datasets for training.</p>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-img-wrapper">
+                    <img src="data_analysis_vector_colorful_banner-scaled.jpg" class="service-img">
+                </div>
+                <div class="service-info">
+                    <h5>Data Analysis</h5>
+                    <p>Extracting meaningful insights and visualizations from complex data patterns.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="projects-page" class="page">
 <div class="container">
     <h2 style="text-align:center; font-size:2.5rem; margin-bottom:3rem;">Projects</h2>
@@ -521,6 +643,24 @@ function sendMailAndThanks() {
     setTimeout(() => {
         showPage('thankyou');
     }, 500); // تأخير بسيط لضمان تنفيذ أمر فتح الإيميل
+}
+function toggleMenu() {
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.toggle('active');
+}
+
+// تعديل دالة showPage لتقوم بإغلاق المنيو تلقائياً بعد اختيار الصفحة
+function showPage(pageId) {
+    // الكود القديم الخاص بكِ...
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+    const target = document.getElementById(`${pageId}-page`);
+    if (target) target.classList.add('active-page');
+
+    // إغلاق المنيو في الموبايل بعد الضغط
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.remove('active');
+
+    window.scrollTo(0, 0);
 }
 </script>
 
