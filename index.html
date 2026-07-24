@@ -269,6 +269,36 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
 .slider-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: 0.3s; }
 .slider-dot.active { background: var(--primary-purple); width: 22px; border-radius: 5px; }
 
+.drive-play-card {
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(15,23,42,0.9));
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text-white);
+}
+.drive-play-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--primary-purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    transition: 0.3s;
+}
+.drive-play-card:hover .drive-play-icon { transform: scale(1.15); box-shadow: 0 0 20px var(--primary-purple); }
+.drive-play-text { font-weight: 600; letter-spacing: 0.5px; }
+
 /* Lightbox للتكبير */
 .lightbox-overlay {
     position: fixed;
@@ -773,7 +803,7 @@ const projectData = {
                 </div>
             </div>
         `,
-        images: ['Video Project 7.mp4'],
+        images: ['Screenshot 2026-07-25 013454.png','Screenshot 2026-07-25 013813.png',{ type: 'drive', url: 'https://drive.google.com/file/d/1PCh0vCt7n2-es1WnWJh6zfmNtbMKUdS1/view?usp=sharing', label: 'Watch Demo Video' }],
         link: 'https://github.com/mariamgaber123/Graduation-Project-DEPI-Round_4'
     },
     'doners': {
@@ -822,7 +852,7 @@ const projectData = {
                 </div>
             </div>
         `,
-        images: ['Screen Recording 2026-07-24 201155.mp4'],
+        images: ['Screenshot 2026-07-25 013015.png','Screenshot 2026-07-25 013115.png',{ type: 'drive', url: 'https://drive.google.com/file/d/1a3Usa1MYzkbvF0h_5t0zRmIqNGbA_P3c/view?usp=sharing', label: 'Watch Demo Video' }],
         link: 'https://github.com/mariamgaber123/Machine-learning-Project_2-DEPI-R4'
     },
     'bike': { title: 'Bike-Sharing Analysis', tags: ['Python','Pandas','Data Analysis','Visualization'], summaryHTML: `<p class="lead">Data cleaning, preprocessing, and feature engineering. Translating raw data into actionable insights with interactive visualization and dashboard development. Analyzed trip data to explore user behavior, patterns, and station usage.</p>`, fullHTML: '', images: ['Screenshot 2026-03-06 213905.png', 'Screenshot 2026-03-06 213844.png'], link: 'https://github.com/mariamgaber123/Data-Analysis-Final-Project-DEPI-R4' },
@@ -879,7 +909,12 @@ function openProjectDetails(id) {
 function renderSlider() {
     let html = '';
     currentMedia.forEach((src, i) => {
-        if (isVideoFile(src)) {
+        if (typeof src === 'object' && src.type === 'drive') {
+            html += `<a href="${src.url}" target="_blank" rel="noopener" class="drive-play-card">
+                        <div class="drive-play-icon">▶</div>
+                        <div class="drive-play-text">${src.label || 'Watch Video on Drive'}</div>
+                     </a>`;
+        } else if (isVideoFile(src)) {
             // controls lets the user play/pause and use the native fullscreen (zoom) control
             html += `<video class="slider-video" src="${src}" controls playsinline preload="metadata"></video>`;
         } else {
@@ -989,6 +1024,10 @@ function dragEnd() {
 sliderExpandBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     const src = currentMedia[currentIdx];
+    if (typeof src === 'object' && src.type === 'drive') {
+        window.open(src.url, '_blank');
+        return;
+    }
     lightboxInner.innerHTML = '';
     if (isVideoFile(src)) {
         pauseAllSliderVideos();
