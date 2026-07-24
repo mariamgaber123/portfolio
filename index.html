@@ -125,26 +125,64 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
 .project-card h4 { font-size: 1.25rem; color: var(--text-white); margin-top: 0.5rem; }
 
 /* --- Slider & Details Page (Kept for functionality) --- */
-/* تصغير حجم السلايدر وضمان وضوح الصورة */
-/* السلايدر بدون أسهم وحركة سريعة */
-/* السلايدر بنظام السحب اليدوي الهادئ */
-/* السلايدر بنظام السحب والحركة التلقائية */
-/* تصغير حجم السلايدر وضمان تناسقه */
-/* الحاوية الأساسية للمحتوى */
-.project-detail-container {
+.project-detail-top {
     display: flex;
     flex-direction: row;
     gap: 40px;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     margin-top: 2rem;
 }
 
 /* جهة النص (اليسار) */
 .project-text-side {
-    flex: 1.2;
+    flex: 1;
     text-align: left;
 }
+
+/* السكشن الكامل تحت (تفاصيل إضافية بعرض الصفحة) */
+.project-detail-full {
+    margin-top: 3rem;
+}
+.project-detail-full > h3.full-heading {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-white);
+}
+.detail-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+.detail-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 1.8rem;
+    transition: 0.3s;
+}
+.detail-card:hover { border-color: var(--primary-purple); transform: translateY(-5px); }
+.detail-card h3 { color: var(--primary-purple); font-size: 1.15rem; margin-bottom: 1rem; }
+.detail-card ul { margin: 0 0 0 1.2rem; padding: 0; }
+.detail-card li { color: var(--text-dim); margin-bottom: 0.5rem; line-height: 1.6; }
+.detail-card p { color: var(--text-dim); }
+.architecture-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+}
+.flow-step {
+    background: rgba(139, 92, 246, 0.12);
+    border: 1px solid var(--primary-purple);
+    color: var(--text-white);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+.flow-arrow { color: var(--primary-purple); font-weight: bold; }
 
 /* جهة السلايدر (اليمين) */
 .slider-frame-side {
@@ -162,7 +200,6 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
     overflow: hidden;
     border: 2px solid var(--primary-purple);
     background-color: #000;
-    /* نضمن إن الحسابات لا تتأثر بالـ border */
     box-sizing: border-box; 
 }
 
@@ -173,17 +210,96 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
     transition: transform 0.4s ease-in-out;
 }
 
-.slider-img {
-    /* هنا السر: الصورة تاخد عرض الإطار المتاح بالظبط */
+.slider-img, .slider-video {
     min-width: 100%; 
     width: 100%;
     height: 100%;
-    /* fill بتفرد الصورة بالكامل جوه المربع */
-    object-fit: fill; 
+    object-fit: contain;
+    background: #000;
     flex-shrink: 0;
     display: block;
     box-sizing: border-box;
 }
+
+/* زر تكبير الصورة/الفيديو */
+.slider-expand-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 20;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid var(--primary-purple);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: 0.3s;
+}
+.slider-expand-btn:hover { background: var(--primary-purple); transform: scale(1.1); }
+
+/* عداد الصور/الفيديوهات */
+.slider-counter {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    background: rgba(15, 23, 42, 0.75);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid var(--border-color);
+}
+
+/* نقاط تنقل تحت السلايدر */
+.slider-dots {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: 20;
+    display: flex;
+    gap: 6px;
+}
+.slider-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: 0.3s; }
+.slider-dot.active { background: var(--primary-purple); width: 22px; border-radius: 5px; }
+
+/* Lightbox للتكبير */
+.lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.92);
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 3vh 3vw;
+}
+.lightbox-overlay.active { display: flex; }
+.lightbox-content {
+    max-width: 92vw;
+    max-height: 88vh;
+    border-radius: 12px;
+    border: 2px solid var(--primary-purple);
+    background: #000;
+    object-fit: contain;
+}
+.lightbox-close {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    font-size: 2.2rem;
+    color: #fff;
+    cursor: pointer;
+    z-index: 3001;
+    line-height: 1;
+}
+.lightbox-close:hover { color: var(--primary-purple); }
 
 /* لتحسين شكل الكلام */
 #detail-title { 
@@ -193,23 +309,30 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
     font-weight: 800;
 }
 
-#detail-desc { 
+#detail-summary { 
     color: #ffffff; 
     line-height: 1.8; 
-    font-size: 1.2rem; 
+    font-size: 1.05rem; 
     background: rgba(30, 41, 59, 0.6); 
     padding: 20px;
     border-radius: 15px;
     border-left: 5px solid var(--primary-purple);
 }
+#detail-summary h3 { color: var(--primary-purple); font-size: 1.2rem; margin: 1.1rem 0 0.5rem; }
+#detail-summary h3:first-child { margin-top: 0; }
+#detail-summary ul { margin: 0 0 0.5rem 1.2rem; padding: 0; }
+#detail-summary li { margin-bottom: 0.35rem; color: var(--text-dim); }
+#detail-summary p.lead { color: #fff; margin-bottom: 0.8rem; }
+
+.detail-tags { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1.2rem; }
+.detail-tag { background: rgba(139, 92, 246, 0.15); color: var(--primary-purple); border:1px solid var(--primary-purple); padding: 5px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; }
 
 .slider-img.active { 
     display: block; 
     opacity: 1;
 }
 
-/* إخفاء الأسهم تماماً */
-.slide-btn { display: none !important; }/* Contact Icons */
+/* Contact Icons */
 .contact-grid-page img { width:45px; height:45px; transition:0.3s; }
 .contact-grid-page img:hover { transform:scale(1.2); filter: drop-shadow(0 0 5px var(--primary-purple)); }
 
@@ -218,45 +341,35 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
 
 /* Responsive */
 @media(max-width:992px){ 
-    .hero-grid, .about-grid, .edu-exp-card, .skills-grid, .project-detail-flex { grid-template-columns: 1fr; flex-direction: column; text-align: center; padding: 2rem; }
+    .hero-grid, .about-grid, .edu-exp-card, .skills-grid, .project-detail-top { grid-template-columns: 1fr; flex-direction: column; text-align: center; padding: 2rem; }
     .hero-content { order: 2; }
     .hero-image-container { order: 1; margin-bottom: 2rem;}
     .about-grid { display: flex; flex-direction: column-reverse; }
     .content-info { margin-bottom: 2rem; }
     .circle-logo { margin-left: 0; margin-top: 1rem; }
     .thank-you-text { font-size: 3.5rem; }
-    .project-detail-flex { grid-template-columns: 1fr; text-align: center; }
-    .detail-info-side { text-align: center; }
-    .slider-frame { margin: 0 auto; }
+    .slider-frame { margin: 0 auto; width: 100%; max-width: 450px; }
 }
 @media print {
-    /* إظهار كل الصفحات وإلغاء خاصية الإخفاء */
     .page {
         display: block !important;
         opacity: 1 !important;
         position: relative !important;
-        page-break-after: always; /* كل قسم يبدأ في صفحة جديدة */
+        page-break-after: always;
         padding-top: 2rem !important;
     }
-
-    /* إخفاء القائمة العلوية (Navigation) والأزرار أثناء الطباعة */
     nav, .btn-gold, .nav-links, [style*="cursor:pointer"] {
         display: none !important;
     }
-
-    /* تعديل الألوان لتناسب الطباعة أو الحفاظ على الخلفية الداكنة */
     body {
         background-color: #0f172a !important;
         -webkit-print-color-adjust: exact;
     }
-
-    /* ضبط الصور لكي لا تنقص في الطباعة */
     .hero-grid, .about-grid, .edu-exp-card {
         display: flex !important;
         break-inside: avoid;
     }
 }
-/* أيقونة المنيو مخفية في الشاشات الكبيرة */
 .menu-icon {
     display: none;
     font-size: 2rem;
@@ -266,7 +379,7 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
 
 @media (max-width: 992px) {
     .menu-icon {
-        display: block; /* تظهر فقط في الموبايل */
+        display: block;
     }
 
     .nav-links {
@@ -275,14 +388,14 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
         left: 0;
         width: 100%;
         background: var(--dark-bg);
-        flex-direction: column; /* الروابط تحت بعضها */
+        flex-direction: column;
         gap: 0;
-        display: none; /* مخفية افتراضياً */
+        display: none;
         border-bottom: 2px solid var(--primary-purple);
     }
 
     .nav-links.active {
-        display: flex; /* تظهر عند الضغط على الزر */
+        display: flex;
     }
 
     .nav-links a {
@@ -366,7 +479,7 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
             <h3>Computer Science</h3>
             <p>Faculty of Computer Science, Menoufia University</p>
             <p>2023 – 2027</p>
-            <p style="color: var(--primary-purple); font-weight: bold; margin-top: 1rem;">GPA: 3.58 / 4.0</p>
+            <p style="color: var(--primary-purple); font-weight: bold; margin-top: 1rem;">GPA: 3.54 / 4.0</p>
         </div>
         <img src="image.png" class="circle-logo" alt="University Logo">
     </div>
@@ -387,13 +500,16 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
 <div id="skills-page" class="page">
 <div class="container">
     <h2 style="text-align:center; font-size:2.5rem; margin-bottom:3rem;">Technical <span style="color:var(--primary-purple)">Skills</span></h2>
-    <div class="skills-grid">
+   <div class="skills-grid">
         <div class="skill-item"><div class="skill-circle"><img src="1_Jxnqtp6c4eMBsDVjuwW98A.png"></div><span class="skill-label">Python</span></div>
         <div class="skill-item"><div class="skill-circle"><img src="69118042dc6ed088810117.webp"></div><span class="skill-label">Preprocessing</span></div>
         <div class="skill-item"><div class="skill-circle"><img src="Strategic-Discovery.webp"></div><span class="skill-label">Data Analysis</span></div>
         <div class="skill-item"><div class="skill-circle"><img src="unnamed.png"></div><span class="skill-label">Machine Learning</span></div>
         <div class="skill-item"><div class="skill-circle"><img src="sitemap-of-a-website-scaled-1920x1080.jpg"></div><span class="skill-label">Deep Learning</span></div>
         <div class="skill-item"><div class="skill-circle"><img src="0ba85a3f-035e-44cd-a649-f6f7ae90a410_1024x1024.jpg"></div><span class="skill-label">NLP</span></div>
+        <div class="skill-item"><div class="skill-circle"><img src="images (1).png"></div><span class="skill-label">Flask</span></div>
+        <div class="skill-item"><div class="skill-circle"><img src="BP-RAG-1920x1080.jpg"></div><span class="skill-label">RAG & LLM</span></div>
+        <div class="skill-item"><div class="skill-circle"><img src="1756607054385.png"></div><span class="skill-label">Explainable AI</span></div>
     </div>
 </div>
 </div>
@@ -440,6 +556,26 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
                     <p>Extracting meaningful insights and visualizations from complex data patterns.</p>
                 </div>
             </div>
+
+           <div class="service-card">
+                <div class="service-img-wrapper">
+                    <img src="AI-Chatbot-Development.jpg" class="service-img">
+                </div>
+                <div class="service-info">
+                    <h5>AI Chatbot Development</h5>
+                    <p>Building RAG-powered chatbots with vector search and LLM integration for smart, context-aware answers.</p>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-img-wrapper">
+                    <img src="742-x-389@2x.webp" class="service-img">
+                </div>
+                <div class="service-info">
+                    <h5>Interactive Dashboards</h5>
+                    <p>Designing interactive dashboards for real-time predictions and business-oriented insights.</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -447,10 +583,19 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
 <div class="container">
     <h2 style="text-align:center; font-size:2.5rem; margin-bottom:3rem;">Projects</h2>
     <div class="projects-grid">
-        <div class="project-card" onclick="openProjectDetails('bike')">
+        <div class="project-card" onclick="openProjectDetails('bright')">
+            <img src="images.jpg" class="project-img">
+            <h4>Bright AI</h4>
+        </div>
+         <div class="project-card" onclick="openProjectDetails('bike')">
             <img src="futuristic-neon-bicycle-illuminated-vibrant-colors-showcasing-modern-design-technology_658005-42868.jpg" class="project-img">
             <h4>Bike-Sharing Analysis</h4>
         </div>
+        <div class="project-card" onclick="openProjectDetails('doners')">
+            <img src="f3b510f0-b9fb-403c-8539-bd45175c5a3f.jpg" class="project-img">
+            <h4>Finding Donors for CharityML</h4>
+        </div>
+       
         <div class="project-card" onclick="openProjectDetails('hospital')">
             <img src="hospital-medical-management-smart-city.jpg" class="project-img">
             <h4>Hospital Management</h4>
@@ -466,20 +611,25 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
     <div class="container">
         <span onclick="showPage('projects')" style="cursor:pointer; color:var(--primary-purple); font-weight:bold; display: inline-block; margin-bottom: 2rem; border: 1px solid; padding: 5px 15px; border-radius: 20px;">← Back to Projects</span>
         
-        <div class="project-detail-container">
+        <h2 id="detail-title" style="margin-bottom:2rem;"></h2>
+        <div class="project-detail-top">
     <div class="project-text-side">
-        <h2 id="detail-title"></h2>
-        <p id="detail-desc"></p>
+        <div id="detail-summary"></div>
+        <div class="detail-tags" id="detail-tags"></div>
         <a id="detail-link" href="#" target="_blank" class="btn-gold">View Repository</a>
     </div>
 
     <div class="slider-frame-side">
-        <div class="slider-frame">
-            <div class="slider-container-inner" id="project-slider-inner">
-                </div>
+        <div class="slider-frame" id="sliderFrame">
+            <div class="slider-container-inner" id="project-slider-inner"></div>
+            <div class="slider-expand-btn" id="sliderExpandBtn" title="Expand">⛶</div>
+            <div class="slider-counter" id="sliderCounter"></div>
+            <div class="slider-dots" id="sliderDots"></div>
         </div>
     </div>
 </div>
+
+<div class="project-detail-full" id="detail-full"></div>
     </div>
 </div>
 
@@ -512,102 +662,305 @@ nav { position:fixed; top:0; width:100%; background:rgba(15, 23, 42, 0.95); back
 
 </main>
 
+<div class="lightbox-overlay" id="lightboxOverlay">
+    <span class="lightbox-close" id="lightboxClose">&times;</span>
+    <div id="lightboxInner" style="max-width:92vw; max-height:88vh;"></div>
+</div>
+
 <script>
 // Page Navigation Logic
-function showPage(pageId){
-    // Hide all pages
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active-page'));
-    
-    // Show target page
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
     const target = document.getElementById(`${pageId}-page`);
-    if(target) target.classList.add('active-page');
-    
-    // Update Nav Links
-    document.querySelectorAll('.nav-link').forEach(l=>{
+    if (target) target.classList.add('active-page');
+
+    document.querySelectorAll('.nav-link').forEach(l => {
         l.classList.remove('active');
-        if(l.getAttribute('data-page') === pageId) l.classList.add('active');
+        if (l.getAttribute('data-page') === pageId) l.classList.add('active');
     });
-    
-    // Scroll to top
-    window.scrollTo(0,0);
+
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.remove('active');
+
+    // Stop any playing slider video / autoplay when leaving the details page
+    if (pageId !== 'project-details') {
+        stopAutoPlay();
+        pauseAllSliderVideos();
+    }
+
+    window.scrollTo(0, 0);
 }
 
 // Project Data
 const projectData = {
-    'bike': { title: 'Bike-Sharing Analysis', desc: 'Data cleaning, preprocessing, and feature engineering Translating raw data into actionable insights Interactive visualization and dashboard development Analyzed trip data to explore user behavior, patterns, and station usage.', images: ['Screenshot 2026-03-06 213905.png', 'Screenshot 2026-03-06 213844.png'], link: 'https://github.com/mariamgaber123/Data-Analysis-Final-Project-DEPI-R4' },
-    'hospital': { title: 'Hospital Management System', desc: 'Python-based application using Object-Oriented Programming (OOP) for managing patient and medical data efficiently.Built a modular system managing patients, staff & departments using classes and inheritance. Demonstrates clean, scalable OOP design.', images: ['Screenshot 2026-03-06 232117.png','Screenshot 2026-03-06 232206.png','Screenshot 2026-03-06 232254.png','Screenshot 2026-03-06 232731.png'], link: 'https://github.com/mariamgaber123/Python-for-ML-final-project-DEBI-R4' },
-    'ml': { title: 'Boston Housing Prices', desc: 'Predictive analytics model to estimate real estate valuation based on various housing features.Data cleaning, EDA, and comparing Regression models (Linear, Polynomial, Random Forest).End-to-End Project', images: ['Screenshot 2026-03-13 003628.png','Screenshot 2026-03-13 003935.png','Screenshot 2026-03-13 003957.png'], link: 'https://github.com/mariamgaber123/DEPI_ONL4_AIS2_S2/tree/main/machine_learning/Projects/p1' }
+    'bright': {
+        title: 'Bright AI',
+        tags: ['Python','Flask','Pandas','Scikit-Learn','Plotly','NLP','FAISS','LangChain','RAG','JavaScript'],
+        summaryHTML: `
+            <p class="lead">AI-Powered End-to-End Data Science Platform — turns raw data into insights, models, and intelligent conversations in minutes.</p>
+            <ul>
+                <li>Automates the complete data science workflow end-to-end, from raw dataset to insights.</li>
+                <li>Upload any CSV and instantly get cleaning, EDA, visualization, NLP analysis, and ML modeling.</li>
+                <li>Includes a RAG-powered chatbot that answers questions about your dataset in Arabic &amp; English.</li>
+            </ul>
+        `,
+        fullHTML: `
+            <h3 class="full-heading">Project <span style="color:var(--primary-purple)">Details</span></h3>
+            <div class="detail-cards-grid">
+                <div class="detail-card">
+                    <h3>📂 Data Handling</h3>
+                    <ul>
+                        <li>Dataset upload with automatic validation and large dataset support</li>
+                        <li>Automated cleaning: missing values, duplicates, outliers, encoding, scaling</li>
+                    </ul>
+                </div>
+                <div class="detail-card">
+                    <h3>📊 Analysis &amp; Visualization</h3>
+                    <ul>
+                        <li>Exploratory Data Analysis with statistical summaries and correlation matrices</li>
+                        <li>25+ interactive charts: scatter, bubble, heatmap, violin, joint, 3D</li>
+                    </ul>
+                </div>
+                <div class="detail-card">
+                    <h3>📝 NLP Engine</h3>
+                    <ul>
+                        <li>Text preprocessing, tokenization, and normalization for free-text columns</li>
+                        <li>TF-IDF / Bag-of-Words vectorization with sentiment &amp; key-phrase extraction</li>
+                        <li>Word clouds, frequency charts, and sentiment distribution visualizations</li>
+                    </ul>
+                </div>
+                <div class="detail-card">
+                    <h3>🤖 Machine Learning</h3>
+                    <ul>
+                        <li>Automatic model selection, training, and hyperparameter tuning</li>
+                        <li>Confusion matrices, ROC curves, and feature importance plots</li>
+                        <li>Downloadable trained models with on-demand inference</li>
+                    </ul>
+                </div>
+                <div class="detail-card">
+                    <h3>💬 AI Chatbot — "BRight AI"</h3>
+                    <ul>
+                        <li>RAG architecture with FAISS vector search and HuggingFace embeddings</li>
+                        <li>Pluggable LLM backend (local Ollama or Anthropic Claude) with conversation memory</li>
+                        <li>Grounded answers based on the user's own dataset, EDA, and trained models</li>
+                    </ul>
+                </div>
+                <div class="detail-card">
+                    <h3>✅ Development Phases</h3>
+                    <ul>
+                        <li>Phase 1 — Data Intelligence Layer (EDA Pipeline)</li>
+                        <li>Phase 2 — Advanced Visualization Engine + Automatic Dashboard</li>
+                        <li>Phase 3 — NLP Analysis Engine</li>
+                        <li>Phase 5 — Machine Learning Pipeline</li>
+                        <li>Phase 6 — RAG Chatbot "BRight AI"</li>
+                    </ul>
+                </div>
+                <div class="detail-card" style="grid-column: 1 / -1;">
+                    <h3>🏗️ Architecture</h3>
+                    <div class="architecture-flow">
+                        <span class="flow-step">Dataset</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">Cleaning</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">EDA</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">Visualization</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">NLP</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">ML</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">Predictions</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">Embeddings</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">FAISS</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">LLM</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">Chatbot</span>
+                    </div>
+                </div>
+            </div>
+        `,
+        images: ['Video Project 7.mp4'],
+        link: 'https://github.com/mariamgaber123/Graduation-Project-DEPI-Round_4'
+    },
+    'doners': {
+        title: 'Finding Donors for CharityML',
+        tags: ['Python','Scikit-learn','XGBoost','Plotly Dash','Data Visualization','Classification','Feature Engineering','Hyperparameter Tuning'],
+        summaryHTML: `
+            <p class="lead">End-to-End Machine Learning Pipeline &amp; Interactive Analytics Dashboard.</p>
+            <ul>
+                <li>Built as part of the Microsoft Machine Learning Track at DEPI (Round 4).</li>
+                <li>Predicts whether an individual's annual income exceeds $50K using the U.S. Census dataset.</li>
+                <li>Helps non-profits identify potential donors and optimize fundraising campaigns.</li>
+            </ul>
+        `,
+        fullHTML: `
+            <h3 class="full-heading">Project <span style="color:var(--primary-purple)">Details</span></h3>
+            <div class="detail-cards-grid">
+                <div class="detail-card">
+                    <h3>🛠️ My Contributions</h3>
+                    <ul>
+                        <li>Cleaned and prepared real-world census data with feature engineering</li>
+                        <li>Reduced skewed numerical features using log transformation</li>
+                        <li>Encoded categorical variables and scaled numerical features</li>
+                    </ul>
+                </div>
+                <div class="detail-card">
+                    <h3>🤖 Modeling &amp; Tuning</h3>
+                    <ul>
+                        <li>Built and compared Logistic Regression, Random Forest, Gradient Boosting, XGBoost</li>
+                        <li>Hyperparameter tuning with GridSearchCV and RandomizedSearchCV</li>
+                        <li>Evaluated with Accuracy, Precision, Recall, F1, and F-beta Score (β = 0.5)</li>
+                    </ul>
+                </div>
+                <div class="detail-card">
+                    <h3>📊 Dashboard</h3>
+                    <ul>
+                        <li>Developed an interactive Plotly Dash dashboard for exploration and real-time prediction</li>
+                        <li>Confidence-score prediction with a business-oriented evaluation view</li>
+                    </ul>
+                </div>
+                <div class="detail-card">
+                    <h3>💡 Business Impact</h3>
+                    <ul>
+                        <li>Identifies high-income individuals more likely to become donors</li>
+                        <li>Enables targeted fundraising strategies through an intuitive dashboard</li>
+                    </ul>
+                </div>
+            </div>
+        `,
+        images: ['Screen Recording 2026-07-24 201155.mp4'],
+        link: 'https://github.com/mariamgaber123/Machine-learning-Project_2-DEPI-R4'
+    },
+    'bike': { title: 'Bike-Sharing Analysis', tags: ['Python','Pandas','Data Analysis','Visualization'], summaryHTML: `<p class="lead">Data cleaning, preprocessing, and feature engineering. Translating raw data into actionable insights with interactive visualization and dashboard development. Analyzed trip data to explore user behavior, patterns, and station usage.</p>`, fullHTML: '', images: ['Screenshot 2026-03-06 213905.png', 'Screenshot 2026-03-06 213844.png'], link: 'https://github.com/mariamgaber123/Data-Analysis-Final-Project-DEPI-R4' },
+    'hospital': { title: 'Hospital Management System', tags: ['Python','OOP'], summaryHTML: `<p class="lead">Python-based application using Object-Oriented Programming (OOP) for managing patient and medical data efficiently. Built a modular system managing patients, staff & departments using classes and inheritance. Demonstrates clean, scalable OOP design.</p>`, fullHTML: '', images: ['Screenshot 2026-03-06 232117.png','Screenshot 2026-03-06 232206.png','Screenshot 2026-03-06 232254.png','Screenshot 2026-03-06 232731.png'], link: 'https://github.com/mariamgaber123/Python-for-ML-final-project-DEBI-R4' },
+    'ml': { title: 'Boston Housing Prices', tags: ['Python','Regression','EDA'], summaryHTML: `<p class="lead">Predictive analytics model to estimate real estate valuation based on various housing features. Data cleaning, EDA, and comparing regression models (Linear, Polynomial, Random Forest). End-to-End Project.</p>`, fullHTML: '', images: ['Screenshot 2026-03-13 003628.png','Screenshot 2026-03-13 003935.png','Screenshot 2026-03-13 003957.png'], link: 'https://github.com/mariamgaber123/DEPI_ONL4_AIS2_S2/tree/main/machine_learning/Projects/p1' }
 };
 
-// Open Project Details Page with Slider
-let sliderInterval;
+// ---------------- Slider Logic (supports images + videos) ----------------
+let sliderInterval = null;
 let currentIdx = 0;
+let currentMedia = [];
+const sliderFrame = document.getElementById('sliderFrame');
+const sliderInner = document.getElementById('project-slider-inner');
+const sliderCounter = document.getElementById('sliderCounter');
+const sliderDots = document.getElementById('sliderDots');
+const sliderExpandBtn = document.getElementById('sliderExpandBtn');
+const lightboxOverlay = document.getElementById('lightboxOverlay');
+const lightboxInner = document.getElementById('lightboxInner');
+const lightboxClose = document.getElementById('lightboxClose');
+
+function isVideoFile(src) {
+    return /\.(mp4|webm|mov|m4v)$/i.test(src);
+}
+
+function pauseAllSliderVideos() {
+    document.querySelectorAll('.slider-video').forEach(v => v.pause());
+}
 
 function openProjectDetails(id) {
     const p = projectData[id];
     document.getElementById('detail-title').innerText = p.title;
-    document.getElementById('detail-desc').innerText = p.desc;
+    document.getElementById('detail-summary').innerHTML = p.summaryHTML;
     document.getElementById('detail-link').href = p.link;
-    
-    let html = '';
-    p.images.forEach(img => {
-        html += `<img src="${img}" class="slider-img">`;
-    });
-    
-    const sliderInner = document.getElementById('project-slider-inner');
-    sliderInner.innerHTML = html;
-    
-    currentIdx = 0;
-    // تصفير المكان عند البدء
-    sliderInner.style.transform = `translateX(0)`;
-    
-    showPage('project-details');
 
-    // الحركة التلقائية السريعة
-    clearInterval(sliderInterval);
-    if(p.images.length > 1) {
-        sliderInterval = setInterval(() => {
-            const totalImages = p.images.length;
-            currentIdx = (currentIdx + 1) % totalImages;
-            // التحرك بنسبة 100% لكل صورة
-            sliderInner.style.transform = `translateX(-${currentIdx * 100}%)`;
-        }, 1500); 
+    const tagsWrap = document.getElementById('detail-tags');
+    tagsWrap.innerHTML = (p.tags || []).map(t => `<span class="detail-tag">${t}</span>`).join('');
+
+    const fullWrap = document.getElementById('detail-full');
+    if (p.fullHTML && p.fullHTML.trim() !== '') {
+        fullWrap.innerHTML = p.fullHTML;
+        fullWrap.style.display = 'block';
+    } else {
+        fullWrap.innerHTML = '';
+        fullWrap.style.display = 'none';
     }
+
+    currentMedia = p.images;
+    currentIdx = 0;
+
+    renderSlider();
+    showPage('project-details');
 }
-function updateSlider() {
+
+function renderSlider() {
+    let html = '';
+    currentMedia.forEach((src, i) => {
+        if (isVideoFile(src)) {
+            // controls lets the user play/pause and use the native fullscreen (zoom) control
+            html += `<video class="slider-video" src="${src}" controls playsinline preload="metadata"></video>`;
+        } else {
+            html += `<img src="${src}" class="slider-img" alt="project image ${i+1}">`;
+        }
+    });
+    sliderInner.innerHTML = html;
+    sliderInner.style.transform = `translateX(0)`;
+
+    // Dots
+    if (currentMedia.length > 1) {
+        sliderDots.innerHTML = currentMedia.map((_, i) => `<div class="slider-dot ${i===0?'active':''}" data-idx="${i}"></div>`).join('');
+        sliderDots.querySelectorAll('.slider-dot').forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                goToSlide(parseInt(dot.dataset.idx, 10));
+            });
+        });
+        sliderCounter.style.display = 'block';
+    } else {
+        sliderDots.innerHTML = '';
+        sliderCounter.style.display = 'none';
+    }
+    updateCounter();
+    setupAutoPlay();
+}
+
+function updateCounter() {
+    sliderCounter.innerText = `${currentIdx + 1} / ${currentMedia.length}`;
+    sliderDots.querySelectorAll('.slider-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === currentIdx);
+    });
+}
+
+function goToSlide(idx) {
+    pauseAllSliderVideos();
+    currentIdx = idx;
     sliderInner.style.transform = `translateX(-${currentIdx * 100}%)`;
+    updateCounter();
 }
 
 function nextSlide() {
-    const total = sliderInner.children.length;
-    if (total <= 1) return;
-    currentIdx = (currentIdx + 1) % total; 
-    updateSlider();
+    if (currentMedia.length <= 1) return;
+    // Don't auto-advance away from a video that's currently playing
+    const activeEl = sliderInner.children[currentIdx];
+    if (activeEl && activeEl.tagName === 'VIDEO' && !activeEl.paused) return;
+    goToSlide((currentIdx + 1) % currentMedia.length);
 }
 
-function startAutoPlay() {
+function setupAutoPlay() {
     stopAutoPlay();
-    // تقليل الوقت لـ 1500 لجعل الصور تجري أسرع
-    autoInterval = setInterval(nextSlide, 1500); 
+    if (currentMedia.length > 1) {
+        sliderInterval = setInterval(nextSlide, 3500);
+    }
 }
 
 function stopAutoPlay() {
-    clearInterval(autoInterval);
+    if (sliderInterval) clearInterval(sliderInterval);
+    sliderInterval = null;
 }
 
-// ميزة السحب اليدوي السريع
+// Pause autoplay while hovering/dragging over the slider, resume after
+sliderFrame.addEventListener('mouseenter', stopAutoPlay);
+sliderFrame.addEventListener('mouseleave', () => setupAutoPlay());
+
+// Manual drag/swipe support
 let isDragging = false;
 let startPos = 0;
 
 sliderFrame.addEventListener('mousedown', dragStart);
-sliderFrame.addEventListener('touchstart', dragStart);
+sliderFrame.addEventListener('touchstart', dragStart, { passive: true });
 sliderFrame.addEventListener('mouseup', dragEnd);
 sliderFrame.addEventListener('mouseleave', dragEnd);
 sliderFrame.addEventListener('touchend', dragEnd);
 sliderFrame.addEventListener('mousemove', dragMove);
-sliderFrame.addEventListener('touchmove', dragMove);
+sliderFrame.addEventListener('touchmove', dragMove, { passive: true });
 
 function dragStart(e) {
+    // Ignore drags that start on the video controls / expand button
+    if (e.target.closest('.slider-expand-btn')) return;
+    if (e.target.tagName === 'VIDEO') return;
     stopAutoPlay();
     isDragging = true;
     startPos = (e.type.includes('mouse')) ? e.pageX : e.touches[0].clientX;
@@ -617,51 +970,75 @@ function dragMove(e) {
     if (!isDragging) return;
     const currentPos = (e.type.includes('mouse')) ? e.pageX : e.touches[0].clientX;
     const diff = startPos - currentPos;
-    
-    if (Math.abs(diff) > 30) { // تقليل الحساسية ليكون السحب اليدوي أسرع (30 بدلاً من 50)
-        if (diff > 0) currentIdx = (currentIdx + 1) % sliderInner.children.length;
-        else currentIdx = (currentIdx - 1 + sliderInner.children.length) % sliderInner.children.length;
-        
-        updateSlider();
-        isDragging = false; 
+
+    if (Math.abs(diff) > 40) {
+        if (currentMedia.length > 1) {
+            if (diff > 0) goToSlide((currentIdx + 1) % currentMedia.length);
+            else goToSlide((currentIdx - 1 + currentMedia.length) % currentMedia.length);
+        }
+        isDragging = false;
     }
 }
 
 function dragEnd() {
     isDragging = false;
-    startAutoPlay(); 
+    setupAutoPlay();
 }
+
+// ---------------- Lightbox (zoom in / expand) ----------------
+sliderExpandBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const src = currentMedia[currentIdx];
+    lightboxInner.innerHTML = '';
+    if (isVideoFile(src)) {
+        pauseAllSliderVideos();
+        const video = document.createElement('video');
+        video.src = src;
+        video.controls = true;
+        video.autoplay = true;
+        video.playsInline = true;
+        video.className = 'lightbox-content';
+        lightboxInner.appendChild(video);
+    } else {
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'lightbox-content';
+        lightboxInner.appendChild(img);
+    }
+    lightboxOverlay.classList.add('active');
+    stopAutoPlay();
+});
+
+function closeLightbox() {
+    lightboxOverlay.classList.remove('active');
+    lightboxInner.innerHTML = '';
+    setupAutoPlay();
+}
+lightboxClose.addEventListener('click', closeLightbox);
+lightboxOverlay.addEventListener('click', (e) => {
+    if (e.target === lightboxOverlay) closeLightbox();
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightboxOverlay.classList.contains('active')) closeLightbox();
+});
+
+// ---------------- Contact ----------------
 function sendMailAndThanks() {
-    // 1. فتح تطبيق الإيميل وتعبئة البيانات تلقائياً
     const email = "mariamgaberfarg@gmail.com";
     const subject = "Portfolio Contact";
     const body = "Hi Mariam, I saw your portfolio and would like to connect...";
-    
-    // هذا السطر يفتح نافذة الإيميل
+
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-    // 2. توجيه المستخدم لصفحة الشكر بعد فتح الإيميل مباشرة
+
     setTimeout(() => {
         showPage('thankyou');
-    }, 500); // تأخير بسيط لضمان تنفيذ أمر فتح الإيميل
+    }, 500);
 }
+
+// ---------------- Mobile menu ----------------
 function toggleMenu() {
     const navLinks = document.getElementById('navLinks');
     navLinks.classList.toggle('active');
-}
-
-// تعديل دالة showPage لتقوم بإغلاق المنيو تلقائياً بعد اختيار الصفحة
-function showPage(pageId) {
-    // الكود القديم الخاص بكِ...
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-    const target = document.getElementById(`${pageId}-page`);
-    if (target) target.classList.add('active-page');
-
-    // إغلاق المنيو في الموبايل بعد الضغط
-    const navLinks = document.getElementById('navLinks');
-    navLinks.classList.remove('active');
-
-    window.scrollTo(0, 0);
 }
 </script>
 
